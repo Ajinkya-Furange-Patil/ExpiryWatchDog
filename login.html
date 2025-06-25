@@ -1,0 +1,52 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Expiry Watchdog</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 👤 Login Box -->
+    <section class="auth-section">
+      <a href="index.html" class="back-btn" aria-label="Back">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="auth-container">
+        <h2>🔐 Welcome Back</h2>
+        <p class="subtitle">Login to manage your expiry items like a pro</p>
+
+        <form id="loginForm">
+          <input type="email" placeholder="Email address" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p class="switch-auth">
+          Don't have an account? <a href="register.html">Register here</a>
+        </p>
+      </div>
+    </section>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("🟢 Login Successful (Mock)");
+          window.location.href = "index.html";
+        });
+    </script>
+  </body>
+</html>

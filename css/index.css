@@ -1,0 +1,300 @@
+/* 💫 RESET & BASE */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* 🌐 NAVBAR */
+.navbar {
+  position: fixed;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-links li a {
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-links li a:hover,
+.nav-links li a:focus {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+/* 📱 Hamburger Menu */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* 🏠 HERO SECTION */
+.hero {
+  /* background: linear-gradient(135deg, #e8f5e9, #ffffff); */
+  padding: 120px 20px 80px;
+  text-align: center;
+  background: linear-gradient(rgb(255, 255, 255, 0.9), rgba(224, 151, 151, 0.9)),
+    url("../images/hero.png") no-repeat center center;
+  background-size: cover;
+  text-align: center;
+  backdrop-filter: blur(2px);
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  color: #2e7d32;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero .tagline {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.hero .buttons {
+  margin-top: 20px;
+}
+
+/* 🔘 BUTTONS */
+.btn,
+.btn-outline {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 5px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.btn {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 2px solid #4caf50;
+  color: #4caf50;
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background-color: #e8f5e9;
+} /* 🌄 HERO SECTION WITH BACKGROUND IMAGE */
+
+.hero .tagline {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 30px;
+}
+
+.hero .buttons {
+  margin-top: 20px;
+}
+
+/* 🧩 SECTIONS */
+.section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #2e7d32;
+}
+
+/* 🌟 FEATURES */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+  padding: 0 10px;
+}
+
+.features-grid li {
+  background-color: #ffffff;
+  border-left: 5px solid #4caf50;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.features-grid li:hover {
+  transform: translateY(-5px);
+}
+
+/* ⚙️ HOW IT WORKS */
+.light {
+  background-color: #f9f9f9;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.step-card {
+  background-color: #ffffff;
+  padding: 25px;
+  width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.step-card h3 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+/* 🧠 ABOUT */
+#about p {
+  max-width: 700px;
+  margin: auto;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* 📞 CTA SECTION */
+.cta {
+  background-color: #4caf50;
+  color: white;
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.cta p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+/* 👣 FOOTER */
+footer {
+  background-color: #eeeeee;
+  color: #777;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+/* 📱 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    display: none;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+}
