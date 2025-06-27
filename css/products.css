@@ -1,75 +1,83 @@
-/* shared.css */
+/* 💫 RESET & BASE */
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: "Segoe UI", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f7fa;
   color: #333;
-  min-height: 100vh;
+  line-height: 1.6;
 }
 
-/* Navbar */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* 🌐 NAVBAR */
 .navbar {
+  margin-top: -115px;
   position: fixed;
-  top: 0;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fff;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   z-index: 1000;
 }
 
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .nav-logo {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #4caf50;
 }
 
 .nav-links {
-  list-style: none;
   display: flex;
+  align-items: center;
   gap: 20px;
 }
-
-.nav-links a {
-  position: relative;
-  text-decoration: none;
-  color: #333;
+.nav-links li a {
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
-.nav-links a:hover {
-  color: #4caf50;
+.nav-links li a:hover,
+.nav-links li a:focus {
+  background-color: #e8f5e9;
+  color: #388e3c;
 }
 
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 0%;
-  background: #4caf50;
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-/* 🌐 Hamburger Icon */
+/* 📱 Hamburger Menu */
 .hamburger {
   display: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
   cursor: pointer;
 }
+
 .form-container {
   max-width: 900px;
   margin: 120px auto 60px;
@@ -159,37 +167,36 @@ input[type="file"] {
 .btn:hover {
   background-color: #388e3c;
 }
+/* 👣 FOOTER */
+footer {
+  background-color: #eeeeee;
+  color: #777;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}
 
 /* Responsive Navbar */
 @media (max-width: 768px) {
-  .navbar {
-    align-items: flex-start;
-    padding: 10px 20px;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
-  }
   .hamburger {
     display: block;
   }
 
   .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
-    background-color: #fff;
-    padding: 10px 20px;
-    display: none; /* Hide by default */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: none;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
 
   .nav-links.show {
-    display: flex; /* Show when toggled */
+    display: flex;
   }
 
   .nav-links li {
