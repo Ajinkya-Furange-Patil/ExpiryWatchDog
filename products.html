@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Products – Expiry Watchdog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+rel="stylesheet"/>
+    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <link rel="stylesheet" href="css/products.css" />
+</head>
+  <body>
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">🕵️ Expiry Watchdog</div>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html" class="btn-outline">Products</a></li>
+          <li><a href="login.html" class="btn-outline">Login</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <section class="form-container">
+      <h2>Add a Product</h2>
+
+      <div class="options-container">
+        <div class="option-card" onclick="selectOption('barcode')">
+          📷 Scan Barcode
+        </div>
+        <div class="option-card" onclick="selectOption('manual')">
+          ✍️ Enter Manually
+        </div>
+        <div class="option-card" onclick="selectOption('ocr')">🧠 OCR Scan</div>
+      </div>
+
+      <!-- Barcode Section -->
+      <div id="section-barcode" class="form-section">
+        <div id="barcode-scanner">[ Barcode Scanner Area ]</div>
+        <button class="btn-scan" onclick="startScanner()">Scan Barcode</button>
+
+        <div class="form-group">
+          <label for="productName">Product Name (if not auto-filled)</label>
+          <input
+            type="text"
+            id="productName-barcode"
+            placeholder="Enter product name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date (if not detected)</label>
+          <input type="date" id="expiryDate-barcode" />
+        </div>
+
+        <div class="form-group">
+          <label for="barcode">Barcode</label>
+          <input type="text" id="barcode" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="productImage"
+            >Upload Product Image (if not auto-loaded)</label
+          >
+          <input type="file" id="productImage-barcode" />
+        </div>
+      </div>
+
+      <!-- Manual Section -->
+      <div id="section-manual" class="form-section">
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input
+            type="text"
+            id="productName-manual"
+            placeholder="Enter product name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="date" id="expiryDate-manual" />
+        </div>
+
+        <div class="form-group">
+          <label for="barcode">Barcode</label>
+          <input
+            type="text"
+            id="barcode-manual"
+            placeholder="Enter barcode manually"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productImage">Upload Product Image</label>
+          <input type="file" id="productImage-manual" />
+        </div>
+      </div>
+
+      <!-- OCR Section -->
+      <div id="section-ocr" class="form-section">
+        <div class="form-group">
+          <label for="ocrInput">Upload Image for OCR</label>
+          <input
+            type="file"
+            id="ocrInput"
+            accept="image/*"
+            onchange="runOCR(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productName">Detected Product Name</label>
+          <input type="text" id="productName-ocr" />
+        </div>
+
+        <div class="form-group">
+          <label for="expiryDate">Detected Expiry Date</label>
+          <input type="date" id="expiryDate-ocr" />
+        </div>
+      </div>
+
+      <button class="btn" onclick="saveProduct()">Save Product</button>
+    </section>
+
+    <footer>
+      <p>© 2025 Hackathon Heroes. Built with 💚</p>
+    </footer>
+
+    <script>
+      function selectOption(option) {
+        document
+          .querySelectorAll(".form-section")
+          .forEach((el) => (el.style.display = "none"));
+        document
+          .querySelectorAll(".option-card")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(`section-${option}`).style.display = "block";
+        event.target.classList.add("active");
+      }
+
+      function startScanner() {
+        Quagga.init(
+          {
+            inputStream: {
+              name: "Live",
+              type: "LiveStream",
+              target: document.querySelector("#barcode-scanner"),
+            },
+            decoder: {
+              readers: ["ean_reader", "upc_reader"],
+            },
+          },
+          function (err) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            Quagga.start();
+          }
+        );
+
+        Quagga.onDetected(function (data) {
+          document.getElementById("barcode").value = data.codeResult.code;
+          Quagga.stop();
+        });
+      }
+
+      function runOCR(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        Tesseract.recognize(file, "eng", { logger: (m) => console.log(m) })
+          .then(({ data: { text } }) => {
+            const nameMatch = text.match(/[a-zA-Z ]{3,}/);
+            const dateMatch = text.match(/\d{2}[\/\-]\d{2}[\/\-]\d{4}/);
+
+            if (nameMatch)
+              document.getElementById("productName-ocr").value = nameMatch[0];
+            if (dateMatch)
+              document.getElementById("expiryDate-ocr").value = new Date(
+                dateMatch[0]
+              )
+                .toISOString()
+                .split("T")[0];
+          })
+          .catch(console.error);
+      }
+
+      function saveProduct() {
+        alert("Product saved (mock)!");
+        // TODO: send data to backend depending on selected option
+      }
+    </script>
+  </body>
+</html>
