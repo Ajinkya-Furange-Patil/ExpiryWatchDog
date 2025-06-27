@@ -8,10 +8,10 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/products.css" />
     <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
     <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
-    <link rel="stylesheet" href="css/products.css" />
   </head>
   <body>
     <header class="navbar">
@@ -41,8 +41,15 @@
 
       <!-- Barcode Section -->
       <div id="section-barcode" class="form-section">
-        <div id="barcode-scanner">[ Barcode Scanner Area ]</div>
-        <button class="btn-scan" onclick="startScanner()">Scan Barcode</button>
+        <div id="barcode-scanner">
+          <button id="scanner-close" onclick="stopScanner()">✖</button>
+        </div>
+        <button class="btn-scan" onclick="startScanner()">
+          📡 Start Scanning
+        </button>
+        <button class="btn" onclick="captureImage()">
+          📸 Capture Barcode Image
+        </button>
 
         <div class="form-group">
           <label for="productName">Product Name (if not auto-filled)</label>
@@ -68,6 +75,16 @@
             >Upload Product Image (if not auto-loaded)</label
           >
           <input type="file" id="productImage-barcode" />
+        </div>
+
+        <div class="form-group">
+          <label for="price-barcode">Price (optional)</label>
+          <input
+            type="number"
+            id="price-barcode"
+            placeholder="₹ Enter price"
+            min="0"
+          />
         </div>
       </div>
 
@@ -100,6 +117,16 @@
           <label for="productImage">Upload Product Image</label>
           <input type="file" id="productImage-manual" />
         </div>
+
+        <div class="form-group">
+          <label for="price-manual">Price</label>
+          <input
+            type="number"
+            id="price-manual"
+            placeholder="₹ Enter price"
+            min="0"
+          />
+        </div>
       </div>
 
       <!-- OCR Section -->
@@ -123,6 +150,16 @@
           <label for="expiryDate">Detected Expiry Date</label>
           <input type="date" id="expiryDate-ocr" />
         </div>
+
+        <div class="form-group">
+          <label for="price-ocr">Detected Price</label>
+          <input
+            type="number"
+            id="price-ocr"
+            placeholder="₹ Price from OCR or enter manually"
+            min="0"
+          />
+        </div>
       </div>
 
       <button class="btn" onclick="saveProduct()">Save Product</button>
@@ -131,7 +168,7 @@
     <footer>
       <p>© 2025 Hackathon Heroes. Built with 💚</p>
     </footer>
-    <script src="script.js"></script>
+
     <script>
       function selectOption(option) {
         document
@@ -171,6 +208,38 @@
         });
       }
 
+      function stopScanner() {
+        Quagga.stop();
+        const video = document.querySelector("#barcode-scanner video");
+        if (video) video.srcObject = null;
+      }
+
+      function captureImage() {
+        const video = document.querySelector("#barcode-scanner video");
+        if (!video) return alert("Scanner not running");
+
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext("2d").drawImage(video, 0, 0);
+
+        const imgData = canvas.toDataURL("image/png");
+        Quagga.decodeSingle(
+          {
+            src: imgData,
+            numOfWorkers: 0,
+            decoder: { readers: ["ean_reader", "upc_reader"] },
+          },
+          function (result) {
+            if (result && result.codeResult) {
+              document.getElementById("barcode").value = result.codeResult.code;
+            } else {
+              alert("No barcode detected from image.");
+            }
+          }
+        );
+      }
+
       function runOCR(input) {
         const file = input.files[0];
         if (!file) return;
@@ -179,6 +248,7 @@
           .then(({ data: { text } }) => {
             const nameMatch = text.match(/[a-zA-Z ]{3,}/);
             const dateMatch = text.match(/\d{2}[\/\-]\d{2}[\/\-]\d{4}/);
+            const priceMatch = text.match(/(?:₹|Rs\.?)\s?(\d{1,5})/i);
 
             if (nameMatch)
               document.getElementById("productName-ocr").value = nameMatch[0];
@@ -188,13 +258,105 @@
               )
                 .toISOString()
                 .split("T")[0];
+            if (priceMatch)
+              document.getElementById("price-ocr").value = priceMatch[1];
           })
           .catch(console.error);
       }
 
       function saveProduct() {
-        alert("Product saved (mock)!");
-        // TODO: send data to backend depending on selected option
+        const activeCard = document.querySelector(".option-card.active");
+        if (!activeCard) {
+          alert("⚠️ Please select an input method first.");
+          return;
+        }
+
+        const selected = activeCard.textContent.trim().toLowerCase();
+        let source = selected.includes("barcode")
+          ? "barcode"
+          : selected.includes("manual")
+          ? "manual"
+          : selected.includes("ocr")
+          ? "ocr"
+          : "";
+
+        let product = {
+          name: "",
+          expiry: "",
+          barcode: "",
+          image: "",
+          price: "0",
+          addedOn: new Date().toISOString(),
+        };
+
+        if (source === "barcode") {
+          product.name = document
+            .getElementById("productName-barcode")
+            .value.trim();
+          product.expiry = document.getElementById("expiryDate-barcode").value;
+          product.barcode = document.getElementById("barcode").value;
+          const file = document.getElementById("productImage-barcode").files[0];
+          product.image = file ? file.name : "barcode-upload.png";
+          product.price = document.getElementById("price-barcode").value || "0";
+        } else if (source === "manual") {
+          product.name = document
+            .getElementById("productName-manual")
+            .value.trim();
+          product.expiry = document.getElementById("expiryDate-manual").value;
+          product.barcode = document
+            .getElementById("barcode-manual")
+            .value.trim();
+          const file = document.getElementById("productImage-manual").files[0];
+          product.image = file ? file.name : "manual-upload.png";
+          product.price = document.getElementById("price-manual").value || "0";
+        } else if (source === "ocr") {
+          product.name = document
+            .getElementById("productName-ocr")
+            .value.trim();
+          product.expiry = document.getElementById("expiryDate-ocr").value;
+          product.barcode = "Detected via OCR";
+          product.image = "ocr-scan-upload.png";
+          product.price = document.getElementById("price-ocr").value || "0";
+        }
+
+        if (!product.name || !product.expiry) {
+          alert("⚠️ Product name and expiry date are required.");
+          return;
+        }
+
+        if (!product.price || parseFloat(product.price) <= 0) {
+          alert("⚠️ Please enter a valid price.");
+          return;
+        }
+
+        try {
+          const expDate = new Date(product.expiry);
+          if (isNaN(expDate)) throw new Error();
+          product.expiry = expDate.toISOString().split("T")[0];
+        } catch {
+          alert("❌ Invalid expiry date format.");
+          return;
+        }
+
+        const existingProducts =
+          JSON.parse(localStorage.getItem("products")) || [];
+        existingProducts.push(product);
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+
+        alert("✅ Product saved successfully!");
+        resetForm(source);
+      }
+
+      function resetForm(source) {
+        const inputs = document.querySelectorAll(`#section-${source} input`);
+        inputs.forEach((input) => {
+          if (input.type !== "file" && input.type !== "button") {
+            input.value = "";
+          } else if (input.type === "file") {
+            input.value = null;
+          }
+        });
+        if (source === "barcode") stopScanner();
       }
     </script>
   </body>

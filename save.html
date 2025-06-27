@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved Products – Expiry Watchdog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/view-products.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">📦 Saved Products</div>
+      </div>
+    </header>
+
+    <main class="products-list">
+      <table id="products-table">
+        <thead>
+          <tr>
+            <th>Product Image</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Expiry Date</th>
+            <th>Remaining Days</th>
+          </tr>
+        </thead>
+        <tbody id="products-list"></tbody>
+      </table>
+      <p class="empty" id="empty-msg" style="display: none">
+        No products saved yet.
+      </p>
+    </main>
+
+    <script>
+      function daysRemaining(expiryDate) {
+        const today = new Date();
+        const expiry = new Date(expiryDate);
+        const diff = expiry - today;
+        return Math.ceil(diff / (1000 * 60 * 60 * 24));
+      }
+
+      function loadProducts() {
+        const tbody = document.getElementById("products-list");
+        const emptyMsg = document.getElementById("empty-msg");
+        tbody.innerHTML = "";
+
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+
+        if (products.length === 0) {
+          emptyMsg.style.display = "block";
+          return;
+        }
+
+        emptyMsg.style.display = "none";
+
+        products.forEach((prod) => {
+          const days = daysRemaining(prod.expiry);
+          const tr = document.createElement("tr");
+
+          // Check if image is available, else fallback placeholder
+          const imgSrc =
+            prod.image.startsWith("http") || prod.image.startsWith("data:")
+              ? prod.image
+              : "https://via.placeholder.com/80";
+
+          tr.innerHTML = `
+      <td><img src="${imgSrc}" alt="${prod.name}" /></td>
+      <td>${prod.name}</td>
+      <td>₹${prod.price || "N/A"}</td>
+      <td>${prod.expiry}</td>
+      <td class="${days <= 5 ? "danger" : "safe"}">${days} days</td>
+    `;
+          tbody.appendChild(tr);
+        });
+      }
+      loadProducts();
+    </script>
+  </body>
+</html>
