@@ -172,14 +172,6 @@
     <footer>
       <p>© 2025 Hackathon Heroes. Built with 💚</p>
     </footer>
-    <div id="popup" class="popup hidden">
-      <div class="popup-content">
-        <span class="popup-emoji">✅</span>
-        <h3>Product Saved Successfully!</h3>
-        <p>Your product has been added to the inventory.</p>
-        <a href="inventory.html" class="btn-go">Go to Saved Products</a>
-      </div>
-    </div>
 
     <script>
       function selectOption(option) {
@@ -276,6 +268,88 @@
           .catch(console.error);
       }
 
+      // function saveProduct() {
+      //   const activeCard = document.querySelector(".option-card.active");
+      //   if (!activeCard) {
+      //     alert("⚠️ Please select an input method first.");
+      //     return;
+      //   }
+
+      //   const selected = activeCard.textContent.trim().toLowerCase();
+      //   let source = selected.includes("barcode")
+      //     ? "barcode"
+      //     : selected.includes("manual")
+      //     ? "manual"
+      //     : selected.includes("ocr")
+      //     ? "ocr"
+      //     : "";
+
+      //   let product = {
+      //     name: "",
+      //     expiry: "",
+      //     barcode: "",
+      //     image: "",
+      //     price: "0",
+      //     addedOn: new Date().toISOString(),
+      //   };
+
+      //   if (source === "barcode") {
+      //     product.name = document
+      //       .getElementById("productName-barcode")
+      //       .value.trim();
+      //     product.expiry = document.getElementById("expiryDate-barcode").value;
+      //     product.barcode = document.getElementById("barcode").value;
+      //     const file = document.getElementById("productImage-barcode").files[0];
+      //     product.image = file ? file.name : "barcode-upload.png";
+      //     product.price = document.getElementById("price-barcode").value || "0";
+      //   } else if (source === "manual") {
+      //     product.name = document
+      //       .getElementById("productName-manual")
+      //       .value.trim();
+      //     product.expiry = document.getElementById("expiryDate-manual").value;
+      //     product.barcode = document
+      //       .getElementById("barcode-manual")
+      //       .value.trim();
+      //     const file = document.getElementById("productImage-manual").files[0];
+      //     product.image = file ? file.name : "manual-upload.png";
+      //     product.price = document.getElementById("price-manual").value || "0";
+      //   } else if (source === "ocr") {
+      //     product.name = document
+      //       .getElementById("productName-ocr")
+      //       .value.trim();
+      //     product.expiry = document.getElementById("expiryDate-ocr").value;
+      //     product.barcode = "Detected via OCR";
+      //     product.image = "ocr-scan-upload.png";
+      //     product.price = document.getElementById("price-ocr").value || "0";
+      //   }
+
+      //   if (!product.name || !product.expiry) {
+      //     alert("⚠️ Product name and expiry date are required.");
+      //     return;
+      //   }
+
+      //   if (!product.price || parseFloat(product.price) <= 0) {
+      //     alert("⚠️ Please enter a valid price.");
+      //     return;
+      //   }
+
+      //   try {
+      //     const expDate = new Date(product.expiry);
+      //     if (isNaN(expDate)) throw new Error();
+      //     product.expiry = expDate.toISOString().split("T")[0];
+      //   } catch {
+      //     alert("❌ Invalid expiry date format.");
+      //     return;
+      //   }
+
+      //   const existingProducts =
+      //     JSON.parse(localStorage.getItem("products")) || [];
+      //   existingProducts.push(product);
+      //   localStorage.setItem("products", JSON.stringify(existingProducts));
+      //   document.getElementById("popup").classList.remove("hidden");
+      //   alert("✅ Product saved successfully!");
+      //   resetForm(source);
+      // }
       function saveProduct() {
         const activeCard = document.querySelector(".option-card.active");
         if (!activeCard) {
@@ -284,7 +358,7 @@
         }
 
         const selected = activeCard.textContent.trim().toLowerCase();
-        let source = selected.includes("barcode")
+        const source = selected.includes("barcode")
           ? "barcode"
           : selected.includes("manual")
           ? "manual"
@@ -292,7 +366,7 @@
           ? "ocr"
           : "";
 
-        let product = {
+        const product = {
           name: "",
           expiry: "",
           barcode: "",
@@ -301,14 +375,13 @@
           addedOn: new Date().toISOString(),
         };
 
+        // Extract product data based on selected method
         if (source === "barcode") {
           product.name = document
             .getElementById("productName-barcode")
             .value.trim();
           product.expiry = document.getElementById("expiryDate-barcode").value;
           product.barcode = document.getElementById("barcode").value;
-          const file = document.getElementById("productImage-barcode").files[0];
-          product.image = file ? file.name : "barcode-upload.png";
           product.price = document.getElementById("price-barcode").value || "0";
         } else if (source === "manual") {
           product.name = document
@@ -318,8 +391,6 @@
           product.barcode = document
             .getElementById("barcode-manual")
             .value.trim();
-          const file = document.getElementById("productImage-manual").files[0];
-          product.image = file ? file.name : "manual-upload.png";
           product.price = document.getElementById("price-manual").value || "0";
         } else if (source === "ocr") {
           product.name = document
@@ -327,10 +398,10 @@
             .value.trim();
           product.expiry = document.getElementById("expiryDate-ocr").value;
           product.barcode = "Detected via OCR";
-          product.image = "ocr-scan-upload.png";
           product.price = document.getElementById("price-ocr").value || "0";
         }
 
+        // Validate required fields
         if (!product.name || !product.expiry) {
           alert("⚠️ Product name and expiry date are required.");
           return;
@@ -350,13 +421,52 @@
           return;
         }
 
-        const existingProducts =
-          JSON.parse(localStorage.getItem("products")) || [];
-        existingProducts.push(product);
-        localStorage.setItem("products", JSON.stringify(existingProducts));
-        document.getElementById("popup").classList.remove("hidden");
-        alert("✅ Product saved successfully!");
-        resetForm(source);
+        // Prepare to read image and persist
+        const input = document.getElementById(`productImage-${source}`);
+        const file = input && input.files[0];
+
+        function persistProduct() {
+          const existingProducts =
+            JSON.parse(localStorage.getItem("products")) || [];
+          existingProducts.push(product);
+          localStorage.setItem("products", JSON.stringify(existingProducts));
+
+          // Show popup
+          showSuccessPopup();
+
+          // Reset form
+          resetForm(source);
+        }
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            product.image = reader.result;
+            persistProduct();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          if (source === "ocr") {
+            product.image = "ocr-scan-upload.png";
+          } else {
+            product.image = ""; // fallback image or placeholder if needed
+          }
+          persistProduct();
+        }
+      }
+
+      function showSuccessPopup() {
+        const popup = document.createElement("div");
+        popup.className = "success-popup";
+        popup.innerHTML = `
+      <div class="popup-content">
+        <h3>✅ Product Saved!</h3>
+        <p>Your product has been added successfully.</p>
+        <a href="inventory.html" class="btn">View Saved Products</a>
+        <button onclick="this.parentElement.parentElement.remove()" class="btn btn-outline">Close</button>
+      </div>
+    `;
+        document.body.appendChild(popup);
       }
 
       function resetForm(source) {
