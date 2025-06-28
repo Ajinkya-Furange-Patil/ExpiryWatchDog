@@ -1,34 +1,32 @@
+:root {
+  --primary: #00c853; /* Vivid Green */
+  --primary-dark: #007e33; /* Deep Green */
+  --background: #121212; /* Dark background */
+  --surface: #1e1e1e; /* Surface panels */
+  --card: #212121; /* Glossy card surface */
+  --text-primary: #ffffff; /* White text */
+  --text-secondary: #bbbbbb; /* Light grey text */
+  --accent: #00e676; /* Neon Green Accent */
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
+  background-color: var(--background);
+  color: var(--text-primary);
   padding: 2rem;
 }
 
-/* header.navbar {
-  background-color: #0e1d54;
-  color: #fff;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-} */
-
-/* .nav-logo { */
-/* font-size: 1.5rem;
-  font-weight: 600; */
-/* } */
-
 /* 🚀 Modern Responsive Navbar */
 .navbar {
-  background-color: #0e1d54;
-  color: white;
+  background-color: var(--surface);
+  color: var(--text-primary);
   padding: 1rem 2rem;
   /* position: sticky; */
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   border-radius: 15px;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -47,7 +45,7 @@ body {
 .nav-logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
@@ -62,7 +60,7 @@ body {
 
 .nav-center label {
   font-weight: 500;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .nav-center select {
@@ -71,8 +69,8 @@ body {
   border-radius: 6px;
   border: none;
   outline: none;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--card);
+  color: var(--text-primary);
   cursor: pointer;
 }
 
@@ -81,8 +79,8 @@ body {
 }
 
 .nav-action .btn {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-primary);
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
@@ -93,7 +91,7 @@ body {
 }
 
 .nav-action .btn:hover {
-  background-color: #388e3c;
+  background-color: var(--primary-dark);
 }
 
 /* 📱 Responsive Adjustments */
@@ -121,22 +119,22 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: var(--card);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow);
 }
 
 th,
 td {
   padding: 1rem;
   text-align: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border);
 }
 
 th {
-  background-color: #0e1d54;
-  color: #fff;
+  background-color: var(--surface);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -145,16 +143,16 @@ td img {
   height: 80px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
 }
 
 .safe {
-  color: #28a745;
+  color: var(--primary);
   font-weight: bold;
 }
 
 .danger {
-  color: #dc3545;
+  color: #ff5252;
   font-weight: bold;
 }
 
@@ -162,5 +160,5 @@ td img {
   text-align: center;
   margin-top: 2rem;
   font-size: 1.2rem;
-  color: #666;
+  color: var(--text-secondary);
 }

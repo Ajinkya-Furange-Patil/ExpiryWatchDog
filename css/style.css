@@ -1,3 +1,16 @@
+:root {
+  --primary: #00c853; /* Vivid Green */
+  --primary-dark: #007e33; /* Deep Green */
+  --background: #121212; /* Dark background */
+  --surface: #1e1e1e; /* Surface panels */
+  --card: #212121; /* Glossy card surface */
+  --text-primary: #ffffff; /* White text */
+  --text-secondary: #bbbbbb; /* Light grey text */
+  --accent: #00e676; /* Neon Green Accent */
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 /* shared.css */
 * {
   box-sizing: border-box;
@@ -7,8 +20,8 @@ body {
   font-family: "Segoe UI", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--background);
+  color: var(--text-primary);
   min-height: 100vh;
 }
 
@@ -17,8 +30,8 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,7 +42,7 @@ body {
 .nav-logo {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #4caf50;
+  color: var(--primary);
 }
 
 .nav-links {
@@ -41,13 +54,13 @@ body {
 .nav-links a {
   position: relative;
   text-decoration: none;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-  color: #4caf50;
+  color: var(--primary);
 }
 
 .nav-links a::after {
@@ -57,18 +70,20 @@ body {
   bottom: 0;
   height: 2px;
   width: 0%;
-  background: #4caf50;
+  background: var(--primary);
   transition: width 0.3s ease;
 }
 
 .nav-links a:hover::after {
   width: 100%;
 }
+
 /* 🌐 Hamburger Icon */
 .hamburger {
   display: none;
   font-size: 1.8rem;
   cursor: pointer;
+  color: var(--text-primary);
 }
 
 /* Button */
@@ -76,8 +91,8 @@ body {
   display: inline-block;
   margin: 10px;
   padding: 12px 24px;
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-primary);
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
@@ -87,7 +102,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #388e3c;
+  background-color: var(--primary-dark);
   transform: scale(1.05);
 }
 
@@ -102,23 +117,34 @@ form {
 form input {
   padding: 12px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 6px;
+  background-color: var(--card);
+  color: var(--text-primary);
+}
+
+form input::placeholder {
+  color: var(--text-secondary);
+}
+
+form input:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
 /* Footer */
 footer {
-  background-color: #f8f8f8;
+  background-color: var(--surface);
   padding: 20px;
   text-align: center;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-top: 40px;
 }
 
 /* Links */
 a {
-  color: #4caf50;
+  color: var(--primary);
   text-decoration: none;
 }
 
@@ -135,6 +161,7 @@ a {
     width: 100%;
     margin-top: 10px;
   }
+
   .hamburger {
     display: block;
   }
@@ -143,11 +170,11 @@ a {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    background-color: #fff;
+    background-color: var(--surface);
     padding: 10px 20px;
     display: none; /* Hide by default */
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .nav-links.show {
