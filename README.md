@@ -41,10 +41,21 @@
 ```
 ExpiryWatchDog/
 │
-├── index.html       # Main UI
-├── style.css        # Stylesheet
-├── script.js        # App logic
-└── README.md        # Project info
+├── index.html       # Homepage UI
+├── css/             # Stylesheets
+|   ├── index.css             # Styles for Homepage
+|   ├── login.css             # Styles for Login Page
+|   ├── products.css          # Styles for Product Form Page
+|   ├── style.css             # Shared Global Styles
+|   ├── view-products.css     # Styles for Inventory Page
+├──images/
+|  ├── hero.png      # Main Hero Banner 
+├── inventory.html   # View Added Products (Inventory)
+├── login.html       # User Login Page
+├── products.html    # Add New Products Page
+├── register.html    # User Registration Page
+├── script.js        # Navigation Bar and Page Scripts
+└── README.md        # Project Documentation
 ```
 
 
