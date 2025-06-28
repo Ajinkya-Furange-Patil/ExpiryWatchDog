@@ -343,13 +343,62 @@ img {
   }
 }
 
-/* 🧠 ABOUT */
-#about p {
-  max-width: 700px;
+/* 🧠 ABOUT US SECTION */
+#about {
+  background-color: #fdfdfd;
+}
+
+.about-intro,
+.about-outro {
+  max-width: 800px;
   margin: auto;
   font-size: 1.1rem;
   color: #555;
   line-height: 1.8;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.team-member {
+  background-color: #ffffff;
+  border-left: 5px solid #4caf50;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.team-member h3 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.team-member p {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team-member {
+    width: 90%;
+  }
 }
 
 /* 📞 CTA SECTION */
