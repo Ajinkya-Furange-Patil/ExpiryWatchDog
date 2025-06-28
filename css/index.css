@@ -217,6 +217,10 @@ img {
   color: #4caf50;
   margin-bottom: 10px;
 }
+.centered {
+  text-align: center;
+  margin-top: 1em;
+}
 
 /* 🧠 ABOUT */
 #about p {
