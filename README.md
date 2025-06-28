@@ -7,7 +7,8 @@
 ## 🔧 Features (MVP Stage)
 - ✅ Add product name and expiry date manually  
 - ✅ View all added products in a table  
-- 🕒 Tracks time until expiry  
+- 🕒 Tracks time until expiry
+- 💾 Stores data using **Local Storage**  
 - 🔔 Notification system (Coming Soon)  
 - 📱 Responsive design using HTML, CSS, JS  
 - 📦 Ideal for small businesses, shops, households, pharmacies
@@ -15,7 +16,8 @@
 ---
 
 ## 🚀 Tech Stack
-- **Frontend:** HTML, CSS, JavaScript  
+- **Frontend:** HTML, CSS, JavaScript
+- **Storage:** Local Storage (Browser-based)  
 - **Version:** MVP (Notification logic planned)  
 - **Design Focus:** Simplicity, usability, fast interaction  
 
@@ -30,10 +32,11 @@
 ---
 
 ## 🛣️ Upcoming Features
-- [ ] Email/WhatsApp/SMS notifications before expiry  
-- [ ] Visual expiry progress bar  
-- [ ] Product categories & filters  
-- [ ] Data persistence (Local Storage / DB)
+
+- [ ] Email / WhatsApp / SMS reminders  
+- [ ] Expiry progress visualizations  
+- [ ] Product category filters  
+- [ ] Cloud database storage options  
 
 ---
 
