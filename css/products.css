@@ -214,6 +214,7 @@ footer {
   animation: popupFade 0.3s ease-out;
 }
 .success-popup .popup-content {
+  width: 90%;
   text-align: center;
 }
 .success-popup h3 {

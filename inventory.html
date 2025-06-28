@@ -67,31 +67,32 @@
       }
 
       function formatDaysRemaining(days) {
-        // Helper to decide singular or plural form
+        const absDays = Math.abs(days);
+
+        const years = Math.floor(absDays / 365);
+        const months = Math.floor((absDays % 365) / 30);
+        const weeks = Math.floor((absDays % 30) / 7);
+        const remainingDays = absDays % 7;
+
         function pluralize(value, unit) {
-          return value === 1 ? `${value} ${unit}` : `${value} ${unit}s`;
+          return value > 0 ? `${value} ${unit}${value === 1 ? "" : "s"}` : "";
         }
 
-        if (days > 365)
-          return `In ${pluralize(Math.floor(days / 365), "year")}`;
-        if (days > 30) return `In ${pluralize(Math.floor(days / 30), "month")}`;
-        if (days > 7) return `In ${pluralize(Math.floor(days / 7), "week")}`;
-        if (days > 1) return `In ${pluralize(days, "day")}`;
-        if (days === 1) return `Tomorrow`;
+        let parts = [];
+        if (years > 0) parts.push(pluralize(years, "year"));
+        if (months > 0) parts.push(pluralize(months, "month"));
+        if (weeks > 0) parts.push(pluralize(weeks, "week"));
+        if (remainingDays > 0) parts.push(pluralize(remainingDays, "day"));
 
-        // expired cases (days < 0)
-        const absDays = Math.abs(days);
-        if (absDays > 365)
-          return `${pluralize(Math.floor(absDays / 365), "year")} ago`;
-        if (absDays > 30)
-          return `${pluralize(Math.floor(absDays / 30), "month")} ago`;
-        if (absDays > 7)
-          return `${pluralize(Math.floor(absDays / 7), "week")} ago`;
-        if (absDays > 1) return `${pluralize(absDays, "day")} ago`;
-        if (absDays === 1) return `Yesterday`;
+        if (days === 0) return "Today";
+        if (days === 1) return "Tomorrow";
+        if (days === -1) return "Yesterday";
 
-        return `Today`;
+        const formatted = parts.slice(0, 2).join(" and "); // Limit to 2 parts for clarity
+
+        return days > 0 ? `${formatted} left` : `${formatted} ago`;
       }
+
       function formatDate(dateString) {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, "0");
