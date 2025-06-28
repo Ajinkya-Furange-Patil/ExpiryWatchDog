@@ -172,6 +172,14 @@
     <footer>
       <p>© 2025 Hackathon Heroes. Built with 💚</p>
     </footer>
+    <div id="popup" class="popup hidden">
+      <div class="popup-content">
+        <span class="popup-emoji">✅</span>
+        <h3>Product Saved Successfully!</h3>
+        <p>Your product has been added to the inventory.</p>
+        <a href="inventory.html" class="btn-go">Go to Saved Products</a>
+      </div>
+    </div>
 
     <script>
       function selectOption(option) {
@@ -346,7 +354,7 @@
           JSON.parse(localStorage.getItem("products")) || [];
         existingProducts.push(product);
         localStorage.setItem("products", JSON.stringify(existingProducts));
-
+        document.getElementById("popup").classList.remove("hidden");
         alert("✅ Product saved successfully!");
         resetForm(source);
       }
