@@ -1,11 +1,11 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f4f6f8;
   color: #333;
   padding: 2rem;
 }
 
-header.navbar {
+/* header.navbar {
   background-color: #0e1d54;
   color: #fff;
   padding: 1rem 2rem;
@@ -13,11 +13,104 @@ header.navbar {
   position: sticky;
   top: 0;
   z-index: 100;
+} */
+
+/* .nav-logo { */
+/* font-size: 1.5rem;
+  font-weight: 600; */
+/* } */
+
+/* 🚀 Modern Responsive Navbar */
+.navbar {
+  background-color: #0e1d54;
+  color: white;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.nav-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
 .nav-logo {
   font-size: 1.5rem;
   font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-center label {
+  font-weight: 500;
+  color: #fff;
+}
+
+.nav-center select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+.nav-action {
+  flex-shrink: 0;
+}
+
+.nav-action .btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav-action .btn:hover {
+  background-color: #388e3c;
+}
+
+/* 📱 Responsive Adjustments */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .nav-center {
+    justify-content: flex-start;
+  }
+
+  .nav-action {
+    align-self: flex-end;
+  }
 }
 
 .products-list {
@@ -34,7 +127,8 @@ table {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-th, td {
+th,
+td {
   padding: 1rem;
   text-align: center;
   border-bottom: 1px solid #ddd;

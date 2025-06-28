@@ -249,6 +249,74 @@ footer {
     transform: translate(-50%, -50%);
   }
 }
+/* Sorting UI */
+.filter-container {
+  max-width: 800px;
+  margin: 100px auto 20px;
+  text-align: center;
+}
+.filter-container select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+/* Table row animation */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status colors */
+.ok {
+  color: green;
+}
+.safe {
+  color: #4caf50;
+}
+.warning {
+  color: #ffa726;
+}
+.danger {
+  color: #ef5350;
+  font-weight: bold;
+}
+.expired-warning {
+  color: #ff7043;
+}
+.expired-danger {
+  color: #e53935;
+}
+.dead {
+  color: black;
+  font-weight: bold;
+}
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* 📱 Responsive Design */
 @media (max-width: 768px) {
