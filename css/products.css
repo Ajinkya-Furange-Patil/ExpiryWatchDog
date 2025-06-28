@@ -221,8 +221,8 @@ footer {
   padding: 20px;
   font-size: 0.9rem;
   position: absolute;
-  width: 100vw;
-  bottom: 0;
+  /* width: 100vw; */
+  /* bottom: 0; */
 }
 .success-popup {
   position: fixed;
