@@ -19,6 +19,8 @@
           <label for="sort-filter">Sort by Expiry:</label>
           <select id="sort-filter" onchange="loadProducts()">
             <option value="">All Products</option>
+            <option value="asc">Expired → Future</option>
+            <option value="desc">Future → Expired</option>
             <option value="1month">Expiry in 1 Month</option>
             <option value="7days">Expiry in 7 Days</option>
             <option value="1day">Expiry in 1 Day</option>
@@ -100,68 +102,79 @@
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
       }
-
       function loadProducts() {
         const tbody = document.getElementById("products-list");
         const emptyMsg = document.getElementById("empty-msg");
-        const filter = document.getElementById("sort-filter")?.value || "";
+        const sortOrder = document.getElementById("sort-filter").value;
         tbody.innerHTML = "";
 
         const products = JSON.parse(localStorage.getItem("products")) || [];
-
         if (products.length === 0) {
           emptyMsg.style.display = "block";
           return;
         }
 
-        const filtered = products.filter((prod) => {
-          const days = daysRemaining(prod.expiry);
+        // Calculate and attach daysRemaining to each product
+        products.forEach((prod) => (prod._days = daysRemaining(prod.expiry)));
 
-          switch (filter) {
-            case "1month":
-              return days > 0 && days <= 30;
-            case "7days":
-              return days > 0 && days <= 7;
-            case "1day":
-              return days === 1;
-            case "7days-expired":
-              return days < 0 && days >= -7;
-            case "1month-expired":
-              return days < 0 && days >= -30;
-            case "1year-expired":
-              return days < 0 && days >= -365;
-            case "more-than-1year-expired":
-              return days < -365;
-            default:
-              return true;
-          }
-        });
+        let filtered = [...products];
+
+        // Handle filtering
+        switch (sortOrder) {
+          case "1month":
+            filtered = products.filter((p) => p._days > 0 && p._days <= 30);
+            break;
+          case "7days":
+            filtered = products.filter((p) => p._days > 0 && p._days <= 7);
+            break;
+          case "1day":
+            filtered = products.filter((p) => p._days === 1);
+            break;
+          case "7days-expired":
+            filtered = products.filter((p) => p._days < 0 && p._days >= -7);
+            break;
+          case "1month-expired":
+            filtered = products.filter((p) => p._days < 0 && p._days >= -30);
+            break;
+          case "1year-expired":
+            filtered = products.filter((p) => p._days < 0 && p._days >= -365);
+            break;
+          case "more-than-1year-expired":
+            filtered = products.filter((p) => p._days < -365);
+            break;
+          // case "transition-expired-to-expiring":
+          //   filtered = products.filter((p) => p._days >= -30 && p._days <= 7);
+          //   break;
+          // case "transition-expiring-to-expired":
+          //   filtered = products.filter((p) => p._days <= 1 && p._days >= -7);
+          //   break;
+          case "asc":
+          case "desc":
+            // Show all products, just sort them
+            filtered = [...products].sort((a, b) =>
+              sortOrder === "asc" ? a._days - b._days : b._days - a._days
+            );
+            break;
+          default:
+            // All products without filter
+            filtered = [...products];
+        }
 
         emptyMsg.style.display = filtered.length === 0 ? "block" : "none";
 
         filtered.forEach((prod) => {
-          const days = daysRemaining(prod.expiry);
+          const days = prod._days;
           const daysText = formatDaysRemaining(days);
           const tr = document.createElement("tr");
-          tr.classList.add("fade-in");
 
-          // Choose CSS class based on days remaining
           let statusClass = "";
-          if (days > 30) {
-            statusClass = "ok";
-          } else if (days > 7) {
-            statusClass = "safe";
-          } else if (days > 1) {
-            statusClass = "warning";
-          } else if (days === 1) {
-            statusClass = "danger";
-          } else if (days >= -7) {
-            statusClass = "expired-warning";
-          } else if (days >= -30) {
-            statusClass = "expired-danger";
-          } else {
-            statusClass = "dead";
-          }
+          if (days > 30) statusClass = "ok";
+          else if (days > 7) statusClass = "safe";
+          else if (days > 1) statusClass = "warning";
+          else if (days === 1) statusClass = "danger";
+          else if (days >= -7) statusClass = "expired-warning";
+          else if (days >= -30) statusClass = "expired-danger";
+          else statusClass = "dead";
 
           const imgSrc =
             prod.image &&
@@ -179,6 +192,89 @@
           tbody.appendChild(tr);
         });
       }
+
+      //   function loadProducts() {
+      //     const tbody = document.getElementById("products-list");
+      //     const emptyMsg = document.getElementById("empty-msg");
+      //     const filter = document.getElementById("sort-filter")?.value || "";
+      //     tbody.innerHTML = "";
+
+      //     const products = JSON.parse(localStorage.getItem("products")) || [];
+
+      //     if (products.length === 0) {
+      //       emptyMsg.style.display = "block";
+      //       return;
+      //     }
+
+      //     const filtered = products.filter((prod) => {
+      //       const days = daysRemaining(prod.expiry);
+
+      //       switch (filter) {
+      //         case "1month":
+      //           return days > 0 && days <= 30;
+      //         case "7days":
+      //           return days > 0 && days <= 7;
+      //         case "1day":
+      //           return days === 1;
+      //         case "7days-expired":
+      //           return days < 0 && days >= -7;
+      //         case "1month-expired":
+      //           return days < 0 && days >= -30;
+      //         case "1year-expired":
+      //           return days < 0 && days >= -365;
+      //         case "more-than-1year-expired":
+      //           return days < -365;
+      //         case "transition-expired-to-expiring":
+      //           return days >= -30 && days <= 7;
+      //         case "transition-expiring-to-expired":
+      //           return days <= 1 && days >= -7;
+      //         default:
+      //           return true;
+      //       }
+      //     });
+
+      //     emptyMsg.style.display = filtered.length === 0 ? "block" : "none";
+
+      //     filtered.forEach((prod) => {
+      //       const days = daysRemaining(prod.expiry);
+      //       const daysText = formatDaysRemaining(days);
+      //       const tr = document.createElement("tr");
+      //       tr.classList.add("fade-in");
+
+      //       // Choose CSS class based on days remaining
+      //       let statusClass = "";
+      //       if (days > 30) {
+      //         statusClass = "ok";
+      //       } else if (days > 7) {
+      //         statusClass = "safe";
+      //       } else if (days > 1) {
+      //         statusClass = "warning";
+      //       } else if (days === 1) {
+      //         statusClass = "danger";
+      //       } else if (days >= -7) {
+      //         statusClass = "expired-warning";
+      //       } else if (days >= -30) {
+      //         statusClass = "expired-danger";
+      //       } else {
+      //         statusClass = "dead";
+      //       }
+
+      //       const imgSrc =
+      //         prod.image &&
+      //         (prod.image.startsWith("http") || prod.image.startsWith("data:"))
+      //           ? prod.image
+      //           : "https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png";
+
+      //       tr.innerHTML = `
+      //   <td><img src="${imgSrc}" alt="${prod.name}" /></td>
+      //   <td>${prod.name}</td>
+      //   <td>₹${prod.price || "N/A"}</td>
+      //   <td>${formatDate(prod.expiry)}</td>
+      //   <td class="${statusClass}">${daysText}</td>
+      // `;
+      //       tbody.appendChild(tr);
+      //     });
+      //   }
       window.onload = loadProducts;
     </script>
   </body>
