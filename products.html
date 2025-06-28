@@ -20,10 +20,6 @@
         <div class="hamburger" id="hamburger">&#9776;</div>
         <ul class="nav-links" id="nav-links">
           <li><a href="index.html">Home</a></li>
-          <li><a href="index.html#features">Features</a></li>
-          <li><a href="index.html#how-it-works">How It Works</a></li>
-          <li><a href="index.html#about">About</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
           <li><a href="products.html" class="btn-outline">Add Product</a></li>
           <li><a href="inventory.html" class="btn-outline">View Product</a></li>
           <li><a href="login.html" class="btn-outline">Login</a></li>
@@ -460,13 +456,13 @@
         const popup = document.createElement("div");
         popup.className = "success-popup";
         popup.innerHTML = `
-      <div class="popup-content">
-        <h3>✅ Product Saved!</h3>
-        <p>Your product has been added successfully.</p>
-        <a href="inventory.html" class="btn">View Saved Products</a>
-        <button onclick="this.parentElement.parentElement.remove()" class="btn btn-outline">Close</button>
-      </div>
-    `;
+        <div class="popup-content">
+          <h3>✅ Product Saved!</h3>
+          <p>Your product has been added successfully.</p>
+          <a href="inventory.html" class="btn">View Saved Products</a>
+          <button onclick="this.parentElement.parentElement.remove()" class="btn btn-outline">Close</button>
+        </div>
+      `;
         document.body.appendChild(popup);
       }
 
