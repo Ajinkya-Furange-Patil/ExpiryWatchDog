@@ -418,7 +418,8 @@ img {
 
 /* 📞 CTA SECTION */
 .cta {
-  background-color: var(--primary);
+  /* background-color: var(--primary); */
+  background-color: var(--card);
   color: var(--text-primary);
   padding: 70px 20px;
   text-align: center;
