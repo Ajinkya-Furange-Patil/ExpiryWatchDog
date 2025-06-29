@@ -93,6 +93,42 @@ body {
 .nav-action .btn:hover {
   background-color: var(--primary-dark);
 }
+/* ✏️ Edit & 🗑️ Delete Buttons Styling */
+
+.btn-edit,
+.btn-delete {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ✏️ Edit Button - Using --accent */
+.btn-edit {
+  background-color: var(--accent); /* Neon green accent */
+  color: var(--background);
+}
+
+.btn-edit:hover {
+  background-color: var(--primary-dark); /* Deep green on hover */
+  color: var(--text-primary);
+}
+
+/* 🗑️ Delete Button - Custom Red */
+.btn-delete {
+  background-color: #ff5252; /* Strong red */
+  color: var(--text-primary);
+}
+
+.btn-delete:hover {
+  background-color: #ff1744; /* Deeper red on hover */
+  color: var(--text-primary);
+}
 
 /* 📱 Responsive Adjustments */
 @media (max-width: 768px) {

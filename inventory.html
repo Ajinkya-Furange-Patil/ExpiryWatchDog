@@ -47,11 +47,13 @@
       <table id="products-table">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Product Image</th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Expiry Date</th>
             <th>Remaining Days</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="products-list"></tbody>
@@ -185,99 +187,63 @@
               : "https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png";
 
           tr.innerHTML = `
-      <td><img src="${imgSrc}" alt="${prod.name}" /></td>
+          <td>${prod.id}</td>
+  <td><img src="${imgSrc}" alt="${prod.name}" /></td>
       <td>${prod.name}</td>
       <td>₹${prod.price || "N/A"}</td>
       <td>${formatDate(prod.expiry)}</td>
       <td class="${statusClass}">${daysText}</td>
+      <td>
+  <button class="btn-edit" onclick="editProduct(${prod.id})">✏️ Edit</button> 
+  <button class="btn-delete" onclick="deleteProduct(${
+    prod.id
+  })">🗑️ Delete</button>   
+</td>
+
     `;
+
+          // ID want to add edit and delete buttons
           tbody.appendChild(tr);
         });
       }
-
-      //   function loadProducts() {
-      //     const tbody = document.getElementById("products-list");
-      //     const emptyMsg = document.getElementById("empty-msg");
-      //     const filter = document.getElementById("sort-filter")?.value || "";
-      //     tbody.innerHTML = "";
-
-      //     const products = JSON.parse(localStorage.getItem("products")) || [];
-
-      //     if (products.length === 0) {
-      //       emptyMsg.style.display = "block";
-      //       return;
-      //     }
-
-      //     const filtered = products.filter((prod) => {
-      //       const days = daysRemaining(prod.expiry);
-
-      //       switch (filter) {
-      //         case "1month":
-      //           return days > 0 && days <= 30;
-      //         case "7days":
-      //           return days > 0 && days <= 7;
-      //         case "1day":
-      //           return days === 1;
-      //         case "7days-expired":
-      //           return days < 0 && days >= -7;
-      //         case "1month-expired":
-      //           return days < 0 && days >= -30;
-      //         case "1year-expired":
-      //           return days < 0 && days >= -365;
-      //         case "more-than-1year-expired":
-      //           return days < -365;
-      //         case "transition-expired-to-expiring":
-      //           return days >= -30 && days <= 7;
-      //         case "transition-expiring-to-expired":
-      //           return days <= 1 && days >= -7;
-      //         default:
-      //           return true;
-      //       }
-      //     });
-
-      //     emptyMsg.style.display = filtered.length === 0 ? "block" : "none";
-
-      //     filtered.forEach((prod) => {
-      //       const days = daysRemaining(prod.expiry);
-      //       const daysText = formatDaysRemaining(days);
-      //       const tr = document.createElement("tr");
-      //       tr.classList.add("fade-in");
-
-      //       // Choose CSS class based on days remaining
-      //       let statusClass = "";
-      //       if (days > 30) {
-      //         statusClass = "ok";
-      //       } else if (days > 7) {
-      //         statusClass = "safe";
-      //       } else if (days > 1) {
-      //         statusClass = "warning";
-      //       } else if (days === 1) {
-      //         statusClass = "danger";
-      //       } else if (days >= -7) {
-      //         statusClass = "expired-warning";
-      //       } else if (days >= -30) {
-      //         statusClass = "expired-danger";
-      //       } else {
-      //         statusClass = "dead";
-      //       }
-
-      //       const imgSrc =
-      //         prod.image &&
-      //         (prod.image.startsWith("http") || prod.image.startsWith("data:"))
-      //           ? prod.image
-      //           : "https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png";
-
-      //       tr.innerHTML = `
-      //   <td><img src="${imgSrc}" alt="${prod.name}" /></td>
-      //   <td>${prod.name}</td>
-      //   <td>₹${prod.price || "N/A"}</td>
-      //   <td>${formatDate(prod.expiry)}</td>
-      //   <td class="${statusClass}">${daysText}</td>
-      // `;
-      //       tbody.appendChild(tr);
-      //     });
-      //   }
       window.onload = loadProducts;
+
+      function deleteProduct(id) {
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+        const updated = products.filter((p) => p.id !== id);
+        localStorage.setItem("products", JSON.stringify(updated));
+        loadProducts();
+      }
+
+      function editProduct(id) {
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+        const product = products.find((p) => p.id === id);
+        if (!product) return alert("Product not found!");
+
+        const newName = prompt("Enter new product name:", product.name);
+        const newPrice = prompt("Enter new price:", product.price);
+        const newExpiry = prompt(
+          "Enter new expiry date (YYYY-MM-DD):",
+          product.expiry
+        );
+        const newImage = prompt(
+          "Enter new image URL (or leave blank):",
+          product.image
+        );
+
+        if (!newName || !newPrice || !newExpiry) {
+          alert("All fields are required.");
+          return;
+        }
+
+        product.name = newName;
+        product.price = newPrice;
+        product.expiry = newExpiry;
+        product.image = newImage;
+
+        localStorage.setItem("products", JSON.stringify(products));
+        loadProducts();
+      }
     </script>
   </body>
 </html>
