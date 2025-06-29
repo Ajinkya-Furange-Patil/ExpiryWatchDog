@@ -42,9 +42,11 @@
 - [ ] Cloud database storage options
 
 ---
+
 ## 🚀 Future Roadmap
 
 ### 🔮 AI-Powered Expiry Replacement Suggestions
+
 We're planning to integrate a smart recommendation engine that:
 
 - Detects when a product is near expiry (within 7 days)
@@ -55,9 +57,12 @@ We're planning to integrate a smart recommendation engine that:
 > 💡 Example: If your milk expires in 3 days, we’ll recommend a top-rated brand you can re-order — just one click away!
 
 This system will benefit both:
+
 - **Users**: Easy re-purchase with trustable recommendations
 - **Us**: Earn affiliate commissions to support development
+
 ---
+
 ## 📁 Project Structure
 
 ```
@@ -70,8 +75,10 @@ ExpiryWatchDog/
 |   ├── products.css          # Styles for Product Form Page
 |   ├── style.css             # Shared Global Styles
 |   ├── view-products.css     # Styles for Inventory Page
+|   ├── about.css             # Styles for About Page
 ├──images/
 |  ├── hero.png      # Main Hero Banner
+├── about.html       # All Necessary Information 
 ├── inventory.html   # View Added Products (Inventory)
 ├── login.html       # User Login Page
 ├── products.html    # Add New Products Page
