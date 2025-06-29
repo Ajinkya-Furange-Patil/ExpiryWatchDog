@@ -16,6 +16,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: all 0.3s ease-in-out;
 }
 html {
   scroll-behavior: smooth;
@@ -31,11 +32,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
 ul {
   list-style: none;
 }
-
 img {
   max-width: 100%;
 }
@@ -76,7 +75,6 @@ img {
   border-radius: 4px;
   transition: all 0.3s ease;
 }
-
 .nav-links li a:hover,
 .nav-links li a:focus {
   background-color: var(--primary-dark);
@@ -98,7 +96,6 @@ img {
   background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
     url("../images/hero.png") no-repeat center center;
   background-size: cover;
-  backdrop-filter: blur(2px);
   height: auto;
   display: grid;
   place-items: center;
@@ -142,6 +139,7 @@ img {
 .btn:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
+  box-shadow: 0 0 10px var(--accent);
 }
 
 .btn-outline {
@@ -153,30 +151,11 @@ img {
 .btn-outline:hover {
   background-color: var(--primary-dark);
   color: var(--text-primary);
-} /* 🌄 HERO SECTION WITH BACKGROUND IMAGE */
-
-.hero .tagline {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin-bottom: 30px;
+  box-shadow: 0 0 10px var(--accent);
 }
 
-.hero .buttons {
-  margin-top: 20px;
-}
-.section {
-  padding: 80px 20px;
-  text-align: center;
-}
-
-.section h2 {
-  font-size: 2.2rem;
-  margin-bottom: 30px;
-  color: var(--accent);
-}
 /* 📞 CTA SECTION */
 .cta {
-  /* background-color: var(--primary); */
   background-color: var(--card);
   color: var(--text-primary);
   padding: 70px 20px;
@@ -191,6 +170,66 @@ img {
 .cta p {
   font-size: 1.1rem;
   margin-bottom: 20px;
+}
+
+.contact-details p {
+  color: var(--text-secondary);
+  margin: 0.5rem 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+  align-items: center;
+  /* width: 150px; */
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.8rem;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid #333;
+  border-radius: 8px;
+  width: 50%;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 5px var(--accent);
+}
+
+.contact-form button {
+  width: 50%;
+  background-color: var(--primary);
+  border: none;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-form button:hover {
+  background-color: var(--primary-dark);
+}
+
+.social-links {
+  margin-top: 1rem;
+}
+
+.social-links a {
+  color: var(--primary);
+  margin: 0 0.4rem;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: dashed underline;
 }
 
 /* 👣 FOOTER */
@@ -229,9 +268,7 @@ footer {
     width: 100%;
     margin: 10px 0;
   }
-  .hero {
-    height: auto;
-  }
+
   .hero h1 {
     font-size: 2.2rem;
   }
@@ -243,5 +280,10 @@ footer {
   .steps {
     flex-direction: column;
     align-items: center;
+  }
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form button {
+    width: 95%;  
   }
 }
