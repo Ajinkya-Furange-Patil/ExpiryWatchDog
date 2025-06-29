@@ -42,7 +42,22 @@
 - [ ] Cloud database storage options
 
 ---
+## 🚀 Future Roadmap
 
+### 🔮 AI-Powered Expiry Replacement Suggestions
+We're planning to integrate a smart recommendation engine that:
+
+- Detects when a product is near expiry (within 7 days)
+- Suggests a replacement product based on your usage pattern
+- Uses affiliate links from Amazon, Flipkart, or other platforms
+- Offers convenience for users and generates passive income to sustain the project
+
+> 💡 Example: If your milk expires in 3 days, we’ll recommend a top-rated brand you can re-order — just one click away!
+
+This system will benefit both:
+- **Users**: Easy re-purchase with trustable recommendations
+- **Us**: Earn affiliate commissions to support development
+---
 ## 📁 Project Structure
 
 ```
