@@ -152,6 +152,20 @@ body {
   margin-top: 2rem;
   overflow-x: auto;
 }
+.safe {
+  color: #00e676; /* Green */
+  font-weight: bold;
+}
+
+.expiring {
+  color: #ff9800; /* Orange */
+  font-weight: bold;
+}
+
+.expired {
+  color: #f44336; /* Red */
+  font-weight: bold;
+}
 
 table {
   width: 100%;

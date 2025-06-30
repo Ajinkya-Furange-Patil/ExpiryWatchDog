@@ -63,7 +63,6 @@
       </p>
     </main>
 
-    
     <script>
       function daysRemaining(expiryDate) {
         const today = new Date();
@@ -146,12 +145,6 @@
           case "more-than-1year-expired":
             filtered = products.filter((p) => p._days < -365);
             break;
-          // case "transition-expired-to-expiring":
-          //   filtered = products.filter((p) => p._days >= -30 && p._days <= 7);
-          //   break;
-          // case "transition-expiring-to-expired":
-          //   filtered = products.filter((p) => p._days <= 1 && p._days >= -7);
-          //   break;
           case "asc":
           case "desc":
             // Show all products, just sort them
@@ -172,13 +165,14 @@
           const tr = document.createElement("tr");
 
           let statusClass = "";
-          if (days > 30) statusClass = "ok";
-          else if (days > 7) statusClass = "safe";
-          else if (days > 1) statusClass = "warning";
-          else if (days === 1) statusClass = "danger";
-          else if (days >= -7) statusClass = "expired-warning";
-          else if (days >= -30) statusClass = "expired-danger";
-          else statusClass = "dead";
+
+          if (days < 0) {
+            statusClass = "expired"; // 🔴
+          } else if (days <= 7) {
+            statusClass = "expiring"; // 🟠
+          } else {
+            statusClass = "safe"; // 🟢
+          }
 
           const imgSrc =
             prod.image &&
